@@ -1,6 +1,7 @@
 """Shared data models."""
 
 from __future__ import annotations
+
 from dataclasses import dataclass, field
 
 
@@ -22,7 +23,11 @@ class WifiProfile:
     def redact(self) -> "WifiProfile":
         """Return a copy with the password partially redacted."""
         if self.password and len(self.password) > 4:
-            redacted = self.password[:2] + "*" * (len(self.password) - 4) + self.password[-2:]
+            redacted = (
+                self.password[:2]
+                + "*" * (len(self.password) - 4)
+                + self.password[-2:]
+            )
         elif self.password:
             redacted = "****"
         else:

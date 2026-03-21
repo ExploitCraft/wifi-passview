@@ -2,15 +2,14 @@
 
 from __future__ import annotations
 
-import sys
 from pathlib import Path
 
 import click
 from rich.console import Console
 
 from .platforms import get_profiles
+from .reporters import csv_report, json_report
 from .reporters import terminal as term_reporter
-from .reporters import json_report, csv_report
 
 console = Console()
 
@@ -64,7 +63,9 @@ def dump(fmt, output, redact, no_password, ssid):
         ]
 
     if fmt == "terminal":
-        term_reporter.print_results(result, show_passwords=not no_password, redact=redact)
+        term_reporter.print_results(
+            result, show_passwords=not no_password, redact=redact
+        )
 
     elif fmt == "json":
         if output:
@@ -98,5 +99,8 @@ def search(query):
         console.print(f"[yellow]No profiles matching '{query}'[/yellow]")
         return
 
-    console.print(f"\n[dim]Found {len(result.profiles)} match(es) for '[cyan]{query}[/cyan]':[/dim]")
+    console.print(
+        f"\n[dim]Found {len(result.profiles)} match(es) "
+        f"for '[cyan]{query}[/cyan]':[/dim]"
+    )
     term_reporter.print_results(result)

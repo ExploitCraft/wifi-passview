@@ -13,7 +13,7 @@ import re
 import subprocess
 from pathlib import Path
 
-from ..models import WifiProfile, ScanResult
+from ..models import ScanResult, WifiProfile
 
 AIRPORT_PATH = (
     "/System/Library/PrivateFrameworks/Apple80211.framework"

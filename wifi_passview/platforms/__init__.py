@@ -1,6 +1,7 @@
 """Platform detection and dispatch."""
 
 from __future__ import annotations
+
 import sys
 
 from ..models import ScanResult

@@ -121,15 +121,16 @@ Options for dump:
 
 ---
 
-## Part of the HackerInc/ExploitCraft Ecosystem
+## Part of the LeakHound Ecosystem
+
+`wifi-passview` is part of [LeakHound](https://github.com/ExploitCraft/leakhound) — a unified secret hunting toolkit.
 
 | Tool | Description |
 |------|-------------|
-| [envleaks](https://github.com/ExploitCraft/envleaks) | Codebase & git history scanner (this repo) |
+| [envleaks](https://github.com/ExploitCraft/envleaks) | Codebase & git history secret scanner |
 | [gitdork](https://github.com/ExploitCraft/gitdork) | Google/Shodan dork generator |
 | **wifi-passview** | Cross-platform WiFi credential dumper (this repo) |
-| [ReconNinja](https://github.com/ExploitCraft/ReconNinja) | ReconNinja v6 — 21-phase recon framework |
-| [VaultHound](https://github.com/ExploitCraft/VaultHound) | Secret & credential scanner |
+| [leakhound](https://github.com/ExploitCraft/leakhound) | Unified CLI wrapping all three |
 
 ---
 

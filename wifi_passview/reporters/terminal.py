@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
+from rich import box
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from rich import box
 from rich.text import Text
 
 from ..models import ScanResult
@@ -15,12 +15,15 @@ console = Console(highlight=False)
 
 def print_banner():
     console.print(Panel.fit(
-        "[bold cyan]wifi-passview[/bold cyan] [dim]— saved WiFi credential dumper[/dim]",
+        "[bold cyan]wifi-passview[/bold cyan] "
+        "[dim]— saved WiFi credential dumper[/dim]",
         border_style="cyan",
     ))
 
 
-def print_results(result: ScanResult, show_passwords: bool = True, redact: bool = False):
+def print_results(
+    result: ScanResult, show_passwords: bool = True, redact: bool = False
+):
     if not result.profiles:
         console.print("\n[yellow]No WiFi profiles found.[/yellow]")
         if result.errors:
@@ -53,7 +56,10 @@ def print_results(result: ScanResult, show_passwords: bool = True, redact: bool 
 
         auth = p.auth_type or "—"
         band = p.band or "—"
-        auto = ("yes" if p.auto_connect else "no") if p.auto_connect is not None else "—"
+        auto = (
+            ("yes" if p.auto_connect else "no")
+            if p.auto_connect is not None else "—"
+        )
 
         table.add_row(p.ssid, pw_text, auth, band, auto)
 
@@ -78,7 +84,10 @@ def _print_summary(result: ScanResult):
 
     table.add_row("Platform", result.platform)
     table.add_row("Total profiles", str(result.total))
-    table.add_row("[green]With password[/green]", f"[green]{result.with_password}[/green]")
+    table.add_row(
+        "[green]With password[/green]",
+        f"[green]{result.with_password}[/green]",
+    )
     table.add_row("[dim]Without password[/dim]", str(result.without_password))
 
     console.print(Panel(table, title="[bold]Summary[/bold]", border_style="dim"))

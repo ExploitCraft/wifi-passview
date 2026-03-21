@@ -14,7 +14,7 @@ import re
 import subprocess
 from pathlib import Path
 
-from ..models import WifiProfile, ScanResult
+from ..models import ScanResult, WifiProfile
 
 NM_PATHS = [
     Path("/etc/NetworkManager/system-connections"),

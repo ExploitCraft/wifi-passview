@@ -8,7 +8,8 @@ from __future__ import annotations
 
 import re
 import subprocess
-from ..models import WifiProfile, ScanResult
+
+from ..models import ScanResult, WifiProfile
 
 
 def get_profiles() -> ScanResult:
@@ -17,7 +18,8 @@ def get_profiles() -> ScanResult:
     try:
         profiles_out = subprocess.run(
             ["netsh", "wlan", "show", "profiles"],
-            capture_output=True, text=True, timeout=10, encoding="utf-8", errors="replace"
+            capture_output=True, text=True, timeout=10,
+            encoding="utf-8", errors="replace",
         )
     except FileNotFoundError:
         result.errors.append("netsh not found — are you running on Windows?")
@@ -40,7 +42,8 @@ def _get_profile_detail(ssid: str, result: ScanResult) -> WifiProfile:
     try:
         detail_out = subprocess.run(
             ["netsh", "wlan", "show", "profile", f"name={ssid}", "key=clear"],
-            capture_output=True, text=True, timeout=10, encoding="utf-8", errors="replace"
+            capture_output=True, text=True, timeout=10,
+            encoding="utf-8", errors="replace",
         )
     except subprocess.TimeoutExpired:
         result.errors.append(f"Timeout fetching detail for '{ssid}'")
@@ -48,11 +51,10 @@ def _get_profile_detail(ssid: str, result: ScanResult) -> WifiProfile:
 
     text = detail_out.stdout
 
-    password_m   = re.search(r"Key Content\s*:\s*(.+)", text)
-    auth_m       = re.search(r"Authentication\s*:\s*(.+)", text)
-    cipher_m     = re.search(r"Cipher\s*:\s*(.+)", text)
-    autoconn_m   = re.search(r"Connection mode\s*:\s*(.+)", text)
-    band_m       = re.search(r"Radio type\s*:\s*(.+)", text)
+    password_m  = re.search(r"Key Content\s*:\s*(.+)", text)
+    auth_m      = re.search(r"Authentication\s*:\s*(.+)", text)
+    autoconn_m  = re.search(r"Connection mode\s*:\s*(.+)", text)
+    band_m      = re.search(r"Radio type\s*:\s*(.+)", text)
 
     return WifiProfile(
         ssid=ssid,
