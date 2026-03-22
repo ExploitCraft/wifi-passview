@@ -15,7 +15,7 @@ console = Console()
 
 
 @click.group()
-@click.version_option(version="0.1.0", prog_name="wifi-passview")
+@click.version_option(version="1.1.0", prog_name="wifi-passview")
 def main():
     """
     \b

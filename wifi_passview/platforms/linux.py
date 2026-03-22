@@ -55,7 +55,17 @@ def _try_networkmanager(result: ScanResult):
     for nm_dir in NM_PATHS:
         if not nm_dir.exists():
             continue
-        for conf_file in nm_dir.iterdir():
+        try:
+            entries = list(nm_dir.iterdir())
+        except PermissionError:
+            result.errors.append(
+                f"Permission denied: {nm_dir}. Try running with sudo."
+            )
+            continue
+        except OSError as e:
+            result.errors.append(f"Cannot read {nm_dir}: {e}")
+            continue
+        for conf_file in entries:
             try:
                 _parse_nm_file(conf_file, result)
             except Exception as e:
@@ -144,7 +154,14 @@ def _try_iwd(result: ScanResult):
     """Parse iwd network state files."""
     if not IWD_PATH.exists():
         return
-    for state_file in IWD_PATH.rglob("*.psk"):
+    try:
+        state_files = list(IWD_PATH.rglob("*.psk"))
+    except PermissionError:
+        result.errors.append(
+            f"Permission denied: {IWD_PATH}. Try running with sudo."
+        )
+        return
+    for state_file in state_files:
         try:
             content = state_file.read_text(encoding="utf-8", errors="replace")
             ssid = state_file.stem

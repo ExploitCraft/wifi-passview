@@ -1,6 +1,17 @@
 # Changelog
 
-## [0.1.0] - 2024-01-01
+## [1.1.0] - 2024-04-01
+
+### Fixed
+- **Critical** — `PermissionError` crash when `iterdir()` on `/etc/NetworkManager/system-connections` without sudo; now caught and added to `result.errors` with a helpful message
+- **Medium** — `PermissionError` crash on `IWD_PATH.rglob("*.psk")` without sudo; same fix applied
+- **Low** — `OSError` on `nm_dir.iterdir()` for other filesystem errors now caught gracefully
+
+### Changed
+- Version bumped to `1.1.0`
+- README updated with ExploitCraft header and docs link
+
+## [1.0.0] - 2024-01-01
 
 ### Added
 - Initial release
