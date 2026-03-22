@@ -10,6 +10,7 @@ import textwrap
 from pathlib import Path
 
 import pytest
+import sys
 
 from wifi_passview.models import ScanResult, WifiProfile
 
@@ -169,6 +170,7 @@ class TestLinuxNMParser:
         _parse_nm_file(conf, result)
         assert result.profiles[0].ssid == "QuotedName"
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="chmod not supported on Windows")
     def test_permission_denied_adds_error(self, tmp_path):
         from wifi_passview.platforms.linux import _parse_nm_file
         conf = tmp_path / "secret.nmconnection"
@@ -242,6 +244,7 @@ class TestLinuxWPAParser:
 # ── Bug fix: PermissionError on iterdir ──────────────────────────────────────
 
 class TestPermissionErrorBugFix:
+    @pytest.mark.skipif(sys.platform == "win32", reason="chmod not supported on Windows")
     def test_nm_iterdir_permission_error_adds_error(self, tmp_path):
         """v1.1.0 fix: PermissionError on nm_dir.iterdir() must not crash."""
         from wifi_passview.platforms import linux
@@ -259,6 +262,7 @@ class TestPermissionErrorBugFix:
         assert any("Permission denied" in e for e in result.errors)
         assert len(result.profiles) == 0
 
+    @pytest.mark.skipif(sys.platform == "win32", reason="chmod not supported on Windows")
     def test_nm_iterdir_permission_error_does_not_raise(self, tmp_path):
         """Must not raise PermissionError — just adds to errors."""
         from wifi_passview.platforms import linux
