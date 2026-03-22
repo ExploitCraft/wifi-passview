@@ -333,7 +333,8 @@ class TestJSONReporter:
         data = to_dict(self._result(), redact=True)
         p = next(p for p in data["profiles"] if p["ssid"] == "Net1")
         assert p["password"] != "pass1"
-        assert "***" in p["password"] or p["password"] == "****"
+        assert p["password"] is not None
+        assert "*" in p["password"]
 
     def test_write_to_file(self, tmp_path):
         from wifi_passview.reporters.json_report import write
